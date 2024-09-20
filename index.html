@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+    background-color: #e0e0e0;
+    font-family: Arial, sans-serif;
+}
+
+.quiz-container {
+    width: 50%;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.header {
+    background-color: #d4b1ff;
+    padding: 20px;
+}
+
+.quiz-box {
+    background-color: #424242;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-around;
+}
+
+.option {
+    background-color: #616161;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.option:hover {
+    background-color: #757575;
+}
+
+.feedback {
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+
+.feedback.correct {
+    background-color: #c8e6c9;
+    color: #388e3c;
+}
+
+.feedback.incorrect {
+    background-color: #ffcdd2;
+    color: #d32f2f;
+}
+ false
+</style>    
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <h1>Quiz Game</h1>
+        </div>
+        <div class="quiz-box">
+            <h2 id="question">What is the capital of France?</h2>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)">Paris</button>
+                <button class="option" onclick="checkAnswer(1)">London</button>
+                <button class="option" onclick="checkAnswer(2)">Rome</button>
+                <button class="option" onclick="checkAnswer(3)">Berlin</button>
+            </div>
+            <button class="btn btn-primary mt-3" onclick="nextQuestion()">Next Question</button>
+            <div class="feedback mt-3" id="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        
+const quizData = [
+    {
+        question: "What is the capital of France?",
+        options: ["Paris", "London", "Rome", "Berlin"],
+        correct: 0
+    },
+    {
+        question: "What is the capital of Italy?",
+        options: ["Madrid", "Rome", "Paris", "Berlin"],
+        correct: 1
+    },
+    {
+        question: "What is the capital of Germany?",
+        options: ["Berlin", "Paris", "Rome", "London"],
+        correct: 0
+    }
+];
+
+let currentQuestion = 0;
+
+
+function loadQuestion() {
+    const quiz = quizData[currentQuestion];
+    document.getElementById('question').innerText = quiz.question;
+    const options = document.querySelectorAll('.option');
+    options.forEach((option, index) => {
+        option.innerText = quiz.options[index];
+    });
+    document.getElementById('feedback').style.display = 'none';
+}
+
+// Function to check the answer
+function checkAnswer(selectedIndex) {
+    const quiz = quizData[currentQuestion];
+    const feedback = document.getElementById('feedback');
+    if (selectedIndex === quiz.correct) {
+        feedback.innerText = 'Correct!';
+        feedback.className = 'feedback correct';
+    } else {
+        feedback.innerText = 'Incorrect!';
+        feedback.className = 'feedback incorrect';
+    }
+    feedback.style.display = 'block';
+}
+
+// Function to load the next question
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        document.querySelector('.quiz-box').innerHTML = '<h2>Quiz Completed!</h2>';
+    }
+}
+
+// Load the first question on page load
+window.onload = loadQuestion;
+
+    </script>
+</body>
+</html>
